@@ -4,16 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Support Our Stories</title>
-<meta name="description" content="If you enjoy our story and music videos, a one dollar donation helps us keep making them.">
+<meta name="description" content="Donate a dollar to help us make more story and music videos, and ask for a video of your own: we make it and dedicate it to you.">
 <style>
   :root {
     --bg: #faf7f2; --card: #ffffff; --ink: #1f1b16; --muted: #6b6258;
-    --accent: #0b5cad; --accent-ink: #ffffff; --line: #e6dfd4; --soft: #eef4fb;
+    --accent: #0b5cad; --accent-ink: #ffffff; --line: #e6dfd4; --soft: #eef4fb; --gold: #9a6b00;
   }
   @media (prefers-color-scheme: dark) {
     :root {
       --bg: #15130f; --card: #1f1c17; --ink: #f1ece4; --muted: #b3a998;
-      --accent: #5aa2ec; --accent-ink: #0d1a28; --line: #352f27; --soft: #1b2733;
+      --accent: #5aa2ec; --accent-ink: #0d1a28; --line: #352f27; --soft: #1b2733; --gold: #f0c35a;
     }
   }
   * { box-sizing: border-box; }
@@ -23,10 +23,11 @@
     min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px 16px;
   }
   main {
-    width: 100%; max-width: 460px; background: var(--card); border: 1px solid var(--line);
+    width: 100%; max-width: 480px; background: var(--card); border: 1px solid var(--line);
     border-radius: 14px; padding: 32px 26px 26px; text-align: center;
   }
   h1 { font-size: 28px; line-height: 1.2; margin: 0 0 12px; font-weight: normal; }
+  h2 { font-size: 21px; line-height: 1.25; margin: 0 0 10px; font-weight: normal; }
   p { margin: 0 0 22px; color: var(--muted); }
   .amounts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
   a.btn {
@@ -37,19 +38,47 @@
   a.btn.other { background: var(--soft); color: var(--ink); border-color: var(--line); font-size: 17px; }
   a.btn:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
   .how { font: 14px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--muted); margin: 18px 0 0; }
-  .thanks { font-style: italic; margin: 22px 0 0; color: var(--ink); }
+  section { border-top: 1px solid var(--line); margin-top: 26px; padding-top: 22px; text-align: left; }
+  section p { margin-bottom: 12px; }
+  section h2 { text-align: center; }
+  ol.steps { margin: 0 0 6px; padding-left: 22px; color: var(--muted); }
+  ol.steps li { margin-bottom: 6px; }
+  ul.made { list-style: none; margin: 0; padding: 0; }
+  ul.made li { padding: 10px 0; border-bottom: 1px solid var(--line); }
+  ul.made li:last-child { border-bottom: 0; }
+  ul.made .who { color: var(--gold); font-weight: 600; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+  ul.made a { color: var(--accent); }
+  .empty { font-style: italic; color: var(--muted); text-align: center; margin: 0; }
+  .thanks { font-style: italic; margin: 22px 0 0; color: var(--ink); text-align: center; }
 </style>
 </head>
 <body>
 <main>
   <h1>Thank you for watching</h1>
-  <p>We make story and music videos. If you enjoyed one, a one dollar donation helps us keep going.</p>
+  <p>We make story and music videos. If you enjoyed one, a one dollar donation helps us keep going. Every dollar is spent on making more videos.</p>
   <div class="amounts">
     <a class="btn" data-k="click1" href="https://www.paypal.com/donate/?cmd=_donations&amp;business=yitzchak.shmalo%40gmail.com&amp;currency_code=USD&amp;no_recurring=1&amp;item_name=Support%20our%20stories&amp;amount=1">$1</a>
     <a class="btn" data-k="click5" href="https://www.paypal.com/donate/?cmd=_donations&amp;business=yitzchak.shmalo%40gmail.com&amp;currency_code=USD&amp;no_recurring=1&amp;item_name=Support%20our%20stories&amp;amount=5">$5</a>
   </div>
   <a class="btn other" data-k="clickcustom" href="https://www.paypal.com/donate/?cmd=_donations&amp;business=yitzchak.shmalo%40gmail.com&amp;currency_code=USD&amp;no_recurring=1&amp;item_name=Support%20our%20stories">Choose your own amount</a>
   <div class="how">Payments go through PayPal. You can pay with a PayPal account or with a debit or credit card, no account needed.</div>
+
+  <section id="ask">
+    <h2>Ask for a video, and we will dedicate it to you</h2>
+    <p>Anyone who donates can tell us what they would like to see next: a story, a moment in history, a person, a place, a piece of music. We make it and dedicate the video to you.</p>
+    <ol class="steps">
+      <li>Donate any amount with one of the buttons above.</li>
+      <li>Write what you would like to see in the PayPal note, or leave a comment under any of our videos saying you donated and what you want.</li>
+      <li>Tell us the name to put on the dedication. A first name is fine, or any name you like.</li>
+    </ol>
+  </section>
+
+  <section id="made">
+    <h2>Made for our supporters</h2>
+    <ul class="made" id="made-list"></ul>
+    <p class="empty" id="made-empty">No dedicated videos yet. The first one could be yours.</p>
+  </section>
+
   <div class="thanks">Every dollar helps. Thank you.</div>
 </main>
 <script>
@@ -61,6 +90,30 @@
       try { fetch(NS + a.getAttribute("data-k"), { mode: "cors", keepalive: true }).catch(function () {}); } catch (e) {}
     });
   });
+  // Dedications: dedications.json holds {name, request, status, video_url, date}; only the name the supporter chose is shown.
+  fetch("dedications.json", { cache: "no-store" }).then(function (r) { return r.json(); }).then(function (rows) {
+    var list = document.getElementById("made-list");
+    var shown = 0;
+    (rows || []).forEach(function (d) {
+      if (!d || !d.name || !d.request) return;
+      var li = document.createElement("li");
+      var who = document.createElement("span");
+      who.className = "who";
+      who.textContent = "For " + d.name;
+      li.appendChild(who);
+      li.appendChild(document.createTextNode(": " + d.request + " "));
+      if (d.video_url && /^https:\/\/(www\.)?(youtube\.com|youtu\.be)\//.test(d.video_url)) {
+        var a = document.createElement("a");
+        a.href = d.video_url; a.textContent = "Watch"; a.rel = "noopener";
+        li.appendChild(a);
+      } else {
+        li.appendChild(document.createTextNode("(in the making)"));
+      }
+      list.appendChild(li);
+      shown++;
+    });
+    if (shown) document.getElementById("made-empty").style.display = "none";
+  }).catch(function () {});
 </script>
 </body>
 </html>
